@@ -22,10 +22,7 @@ package com.cilogi.aws.sdb;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.*;
 
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * For debugging and local running.  Is meant to be thread safe...
@@ -91,6 +88,26 @@ public class MemoryTupleStore implements ITupleStore {
             }
             itemMap.put(attribute, value);
         }
+    }
+
+    @Override
+    public void delete(String itemName, String attribute, String value) {
+        Multimap<String, String> itemMap = getMap(itemName);
+        if (itemMap.containsKey(attribute)) {
+            itemMap.remove(attribute, value);
+        }
+    }
+
+    @Override
+    public void delete(String itemName, String attribute) {
+        Multimap<String, String> itemMap = getMap(itemName);
+        itemMap.removeAll(attribute);
+    }
+
+    @Override
+    public void delete(String itemName) {
+        Multimap<String, String> itemMap = getMap(itemName);
+        itemMap.clear();
     }
 
     private Multimap<String, String> getMap(String itemName) {

@@ -53,6 +53,12 @@ public interface ITupleStore {
      */
     public void put(String itemName, boolean replace, String... attributeValuePairs);
 
+    public void delete(String itemName, String attribute, String value);
+
+    public void delete(String itemName, String attributeName);
+
+    public void delete(String itemName);
+
     /*
     public Set<String> get(Query query);
 

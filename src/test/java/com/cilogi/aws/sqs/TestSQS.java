@@ -27,6 +27,7 @@ import org.codehaus.jackson.map.util.JSONPObject;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.Console;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -52,13 +53,12 @@ public class TestSQS {
 
     }
 
-    @Test
     public void testAddRemove() {
         sqs.sendMessage(create());
-        List<Message> messages = sqs.getMessages();
+        List<IMessage> messages = sqs.getMessages();
         assertEquals(1, messages.size());
         JSONObject back = SQS.message2json(messages.get(0));
-        for (Message message : messages) {
+        for (IMessage message : messages) {
             sqs.deleteMessage(message);
         }
         assertTrue(back.has("key"));
@@ -67,6 +67,25 @@ public class TestSQS {
         } catch (JSONException e) {
             fail("Can't get key from JSON object: " + back.toString() + ": " + e.getMessage());
         }
+    }
+
+    public void testHandle() {
+        SQSProcess process = new SQSProcess("testQueue", new ISQSHandler() {
+            public void handle(JSONObject obj, Callback callback) {
+                try {
+                    System.out.println("handle: " + obj.get("key"));
+                } catch (Exception e) {}
+                callback.callback();
+            }
+        });
+        process.start();
+        for (int i = 0; i < 10; i++) {
+            sqs.sendMessage( create() );
+            try { Thread.currentThread().sleep(3000); } catch (InterruptedException e) {}
+        }
+        try { Thread.currentThread().sleep(10000); } catch (InterruptedException e) {}
+        System.out.println("done");
+        process.stop();
     }
 
     private JSONObject create() {

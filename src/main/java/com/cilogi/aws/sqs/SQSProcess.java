@@ -24,19 +24,19 @@ import com.amazonaws.services.sqs.model.Message;
 import com.amazonaws.util.json.JSONObject;
 import com.cilogi.util.LimitedExecutor;
 import com.google.common.base.Preconditions;
+import org.apache.log4j.Logger;
 
 import java.util.List;
+import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Logger;
 
 
 public class SQSProcess {
-    static final Logger LOG = Logger.getLogger(SQSProcess.class.getName());
+    static final Logger LOG = Logger.getLogger(SQSProcess.class);
 
     private final LimitedExecutor executor;
     private Thread runner;
     private final SQS sqs;
-    private volatile boolean isRunning;
     private ISQSHandler handler;
 
     public SQSProcess(String queueName, ISQSHandler handler) {
@@ -45,17 +45,14 @@ public class SQSProcess {
         sqs = new SQS(queueName);
         this.handler = handler;
         runner = null;
-        isRunning = false;
     }
 
     public synchronized  void start() {
         runner = new Thread(new RunForever());
-        isRunning = true;
         runner.start();
     }
 
     public synchronized void stop() {
-        isRunning = false;
         executor.shutdown();
         try {
             executor.awaitTermination(1L, TimeUnit.MINUTES);
@@ -66,11 +63,11 @@ public class SQSProcess {
 
     private class RunForever implements Runnable {
         public void run() {
-            while (isRunning) {
+            while (!executor.isShutdown()) {
                 try {
-                    List<Message> messages = sqs.getMessages();
-                    for (Message message : messages) {
-                        final Message messageFinal = message;
+                    List<IMessage> messages = sqs.getMessages();
+                    for (IMessage message : messages) {
+                        final IMessage messageFinal = message;
                         final JSONObject json = SQS.message2json(messageFinal);
                         executor.submit(new Runnable() {
                             public void run() {
@@ -78,23 +75,27 @@ public class SQSProcess {
                             }
                         });
                     }
+                } catch (RejectedExecutionException e) {
+                    LOG.info("Stopped processing with messages around: " + e.getMessage());
+                    executor.shutdown();
                 } catch (Exception e) {
-                    LOG.warning("Problem handling message: " + e.getMessage());
-                    isRunning = false;
+                    LOG.warn("Problem handling message: " + e.getMessage());
+                    executor.shutdown();
                 }
             }
         }
     }
 
     private class MyCallBack implements ISQSHandler.Callback {
-        private final Message message;
+        private final IMessage message;
 
-        MyCallBack(Message message) {
+        MyCallBack(IMessage message) {
             this.message = message;
         }
 
         @Override
         public void callback() {
+            LOG.debug("Deleting message");
             sqs.deleteMessage(message);
         }
     }

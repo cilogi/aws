@@ -20,6 +20,7 @@
 package com.cilogi.aws.sdb;
 
 import com.amazonaws.services.simpledb.model.Attribute;
+import com.amazonaws.services.simpledb.model.DeleteAttributesRequest;
 import com.amazonaws.services.simpledb.model.ReplaceableAttribute;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.HashMultimap;
@@ -93,5 +94,20 @@ public class SDBTupleStore implements ITupleStore {
             atts.add(new ReplaceableAttribute(entry.getKey(), entry.getValue(), replace));
         }
         db.put(domainName, itemName, atts);
+    }
+
+    @Override
+    public void delete(String itemName, String attribute, String value) {
+        db.deleteAttribute(domainName, itemName, attribute, value);
+    }
+
+    @Override
+    public void delete(String itemName, String attributeName) {
+        db.deleteAttribute(domainName, itemName, attributeName);
+    }
+
+    @Override
+    public void delete(String itemName) {
+        db.deleteItem(domainName, itemName);
     }
 }

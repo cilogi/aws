@@ -29,6 +29,7 @@ import com.amazonaws.util.json.JSONException;
 import com.amazonaws.util.json.JSONObject;
 import com.cilogi.util.Secrets;
 import com.google.common.base.Preconditions;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import java.util.List;
@@ -80,16 +81,21 @@ public class SQS {
         sqs.sendMessage(sendMessageRequest);
     }
 
-    public List<Message> getMessages() {
+    public List<IMessage> getMessages() {
         ReceiveMessageRequest receiveMessageRequest = new ReceiveMessageRequest()
                 .withQueueUrl(queueUrl)
                 .withWaitTimeSeconds(waitTime)
                 .withMaxNumberOfMessages(MaximNumberOfMessages);
         ReceiveMessageResult result = sqs.receiveMessage(receiveMessageRequest);
-        return result.getMessages();
+        List<Message> list = result.getMessages();
+        List<IMessage> out = Lists.newArrayList();
+        for (Message m : list) {
+            out.add(new SimpleMessage(m.getBody(), m.getReceiptHandle()));
+        }
+        return out;
     }
 
-    public static JSONObject message2json(Message message) {
+    public static JSONObject message2json(IMessage message) {
         try {
             return new JSONObject(message.getBody());
         } catch (JSONException e) {
@@ -97,7 +103,7 @@ public class SQS {
         }
     }
 
-    public void deleteMessage(Message message) {
+    public void deleteMessage(IMessage message) {
         Preconditions.checkNotNull(message, "You can't have a null message to delete from SQS");
         DeleteMessageRequest deleteMessageRequest = new DeleteMessageRequest()
                 .withQueueUrl(queueUrl)

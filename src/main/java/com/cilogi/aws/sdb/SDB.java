@@ -32,16 +32,16 @@ import java.util.List;
 /**
  * Simple interface to SDB
  */
-public class SDB {
+class SDB {
     static final Logger LOG = Logger.getLogger(SDB.class);
 
     private final AmazonSimpleDBClient client;
 
-    public SDB() {
+    SDB() {
         this(Secrets.VALUES.get("aws.access"), Secrets.VALUES.get("aws.accessSecret"));
     }
 
-    public SDB(String accessKey, String secretAccessKey) {
+    SDB(String accessKey, String secretAccessKey) {
         AWSCredentials credentials = new BasicAWSCredentials( accessKey, secretAccessKey );
         client = new AmazonSimpleDBClient( credentials);
     }
@@ -68,4 +68,40 @@ public class SDB {
         client.putAttributes(new PutAttributesRequest().withDomainName(domainName).withItemName(itemName).withAttributes(atts));
     }
 
+    public void deleteAttribute(String domainName, String itemName, String attributeName, String value) {
+        Preconditions.checkNotNull(itemName, "item name can't be null when deleting items in SDB");
+        Preconditions.checkNotNull(attributeName, "attribute name can't be null when deleting items in SDB");
+        Preconditions.checkNotNull(value, "value can't be null when deleting items in SDB");
+
+        Attribute attr = new Attribute()
+                .withName(attributeName)
+                .withValue(value);
+        DeleteAttributesRequest deleteAttributeRequest = new DeleteAttributesRequest()
+                .withDomainName(domainName)
+                .withItemName(itemName)
+                .withAttributes(attr);
+        client.deleteAttributes(deleteAttributeRequest);
+    }
+
+    public void deleteAttribute(String domainName, String itemName, String attributeName) {
+        Preconditions.checkNotNull(itemName, "item name can't be null when deleting items in SDB");
+        Preconditions.checkNotNull(attributeName, "attribute name can't be null when deleting items in SDB");
+
+        Attribute attr = new Attribute()
+                .withName(attributeName);
+        DeleteAttributesRequest deleteAttributeRequest = new DeleteAttributesRequest()
+                .withDomainName(domainName)
+                .withItemName(itemName)
+                .withAttributes(attr);
+        client.deleteAttributes(deleteAttributeRequest);
+    }
+
+    public void deleteItem(String domainName, String itemName) {
+        Preconditions.checkNotNull(itemName, "item name can't be null when deleting items in SDB");
+
+        DeleteAttributesRequest deleteAttributeRequest = new DeleteAttributesRequest()
+                .withDomainName(domainName)
+                .withItemName(itemName);
+        client.deleteAttributes(deleteAttributeRequest);
+    }
 }
