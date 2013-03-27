@@ -1,0 +1,17 @@
+out
+*.iml
+*~
+classes
+blog*.jar
+*.zip
+pro.txt
+target
+.idea
+errs.txt
+secret.properties
+lib/
+build/
+
+
+
+
