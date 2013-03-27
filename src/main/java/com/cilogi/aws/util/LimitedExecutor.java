@@ -19,7 +19,7 @@
 //
 
 
-package com.cilogi.util;
+package com.cilogi.aws.util;
 
 import org.apache.log4j.Logger;
 

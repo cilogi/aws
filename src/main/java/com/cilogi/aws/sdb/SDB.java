@@ -22,7 +22,7 @@ import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.simpledb.AmazonSimpleDBClient;
 import com.amazonaws.services.simpledb.model.*;
-import com.cilogi.util.Secrets;
+import com.cilogi.aws.util.Secrets;
 import com.google.common.base.Preconditions;
 import org.apache.log4j.Logger;
 

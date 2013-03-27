@@ -55,9 +55,11 @@ public class TestSDB {
     public void testPut() {
         sdb.put(DOMAIN, "item", atts("one", "a", "one", "b", "one", "c"));
         sdb.deleteAttribute(DOMAIN, "item", "one", "c");
+        sleep(3000L);
         List<Attribute> list = sdb.get(DOMAIN, "item");
         assertEquals(2, list.size());
         sdb.deleteAttribute(DOMAIN, "item", "one");
+        sleep(3000L);
         List<Attribute> list2 = sdb.get(DOMAIN, "item");
         assertEquals(0, list2.size());
     }
@@ -76,5 +78,14 @@ public class TestSDB {
             out.add(new ReplaceableAttribute(vals[i], vals[i+1], true));
         }
         return out;
+    }
+
+    private static void sleep(long msec) {
+        try {
+            Thread.currentThread().sleep(msec);
+        } catch (InterruptedException e)  {
+            // ok
+        }
+
     }
 }

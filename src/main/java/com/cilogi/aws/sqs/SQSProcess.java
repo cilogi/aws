@@ -20,9 +20,8 @@
 
 package com.cilogi.aws.sqs;
 
-import com.amazonaws.services.sqs.model.Message;
 import com.amazonaws.util.json.JSONObject;
-import com.cilogi.util.LimitedExecutor;
+import com.cilogi.aws.util.LimitedExecutor;
 import com.google.common.base.Preconditions;
 import org.apache.log4j.Logger;
 
