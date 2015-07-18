@@ -20,13 +20,12 @@
 
 package com.cilogi.aws.cart;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
+import java.util.logging.Logger;
 
 public class CartCreateDemo {
     @SuppressWarnings("unused")
-    static final Logger LOG = LoggerFactory.getLogger(CartCreateDemo.class);
+    static final Logger LOG = Logger.getLogger(CartCreateDemo.class.getName());
 
 
     private static final String BEGONIA_ASIN = "1847972314";

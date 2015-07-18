@@ -23,14 +23,13 @@ package com.cilogi.aws.cart;
 import org.junit.Before;
 import org.junit.Test;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.logging.Logger;
 
 import static org.junit.Assert.*;
 
 public class TestCart {
     @SuppressWarnings("unused")
-    static final Logger LOG = LoggerFactory.getLogger(TestCart.class);
+    static final Logger LOG = Logger.getLogger(TestCart.class.getName());
 
 
     public TestCart() {

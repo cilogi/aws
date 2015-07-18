@@ -60,7 +60,7 @@ public class Cart {
         }
     }
     public Cart() {
-        items = new ArrayList();
+        items = new ArrayList<>();
     }
 
 
