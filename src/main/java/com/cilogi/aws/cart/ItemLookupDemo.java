@@ -22,5 +22,6 @@ public class ItemLookupDemo {
         System.out.println("Title is " + item.getTitle());
         System.out.println("Description is " + item.getDescription());
         System.out.println("Image is " + item.getImage());
+        System.out.println("Price is " + item.getListPrice());
     }
 }

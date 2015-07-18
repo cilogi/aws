@@ -29,6 +29,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -49,6 +50,7 @@ public class ItemLookup {
         params.put("ResponseGroup", "Medium");
 
         doc = base.fetch(params);
+        BasicOp.printDocument(doc, System.out);
     }
 
     public String getTitle() {
@@ -70,6 +72,23 @@ public class ItemLookup {
             }
         }
         return null;
+    }
+
+    public BigDecimal getListPrice() {
+        NodeList priceNodes = doc.getElementsByTagName("ListPrice");
+        if (priceNodes == null) {
+            return null;
+        }
+        Element priceElement = (Element)priceNodes.item(0);
+        Node amountNode = priceElement.getElementsByTagName("Amount").item(0);
+        String amount = amountNode.getTextContent();
+        try {
+            BigDecimal dec = new BigDecimal(amount);
+            return dec.divide(new BigDecimal(100));
+        } catch (NumberFormatException e) {
+            LOG.warning("Can't parse <" + amount + "> as number");
+            return null;
+        }
     }
 
     private ItemImage getImage(String elementName) {
