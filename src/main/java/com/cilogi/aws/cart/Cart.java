@@ -47,12 +47,12 @@ public class Cart {
 
     private List<CartItem> items;
 
-    public Cart fromBase64(String s) {
+    public static Cart fromBase64(String s) {
         String json = new String(Base64Codec.decode(s), Charsets.UTF_8);
         return fromJSONString(json);
     }
 
-    public Cart fromJSONString(String s) {
+    public static Cart fromJSONString(String s) {
         try {
             return new ObjectMapper().readValue(s, Cart.class);
         } catch (IOException e) {
