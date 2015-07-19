@@ -36,6 +36,7 @@ public class CartCreateDemo {
         cart.addItem(BEGONIA_ASIN, 1);
         cart.addItem(PEVSNER_ASIN, 2);
         CartCreate create = new CartCreate(cart);
+        BasicOp.printDocument(create.getDoc(), System.out);
         String url = create.getUrl();
         if (url == null) {
             System.out.println("error message is " + create.errorMessage());

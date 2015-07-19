@@ -39,7 +39,10 @@ public class CartCreate {
     public CartCreate(@NonNull Cart cart) {
         BasicOp base = new BasicOp();
         doc = doc(cart, base);
-        BasicOp.printDocument(doc, System.out);
+    }
+
+    public Document getDoc() {
+        return doc;
     }
 
     public String getUrl() {
