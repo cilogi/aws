@@ -55,7 +55,7 @@ public class ItemLookup {
 
     @SuppressWarnings({"unused"})
     public ItemInfo getInfo() {
-        return new ItemInfo(asin, getTitle(), getDescription(), getImage(),
+        return new ItemInfo(asin, getTitle(), getDescription(), getImage(), getThumb(),
                      getListPrice());
     }
 
@@ -82,6 +82,11 @@ public class ItemLookup {
             }
         }
         return null;
+    }
+
+    public ItemImage getThumb() {
+        ItemImage image = getImage("ThumbnailImage");
+        return image;
     }
 
     public BigDecimal getListPrice() {

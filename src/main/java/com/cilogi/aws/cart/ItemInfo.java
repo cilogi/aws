@@ -46,6 +46,7 @@ public class ItemInfo implements Serializable {
     private String title;
     private String description;
     private ItemImage image;
+    private ItemImage thumb;
     private BigDecimal unitPrice;
 
     public static ItemInfo fromJSONString(@NonNull String s) {
@@ -56,12 +57,13 @@ public class ItemInfo implements Serializable {
         }
     }
 
-    ItemInfo(@NonNull String id, String title, String description, ItemImage image,
+    ItemInfo(@NonNull String id, String title, String description, ItemImage image,  ItemImage thumb,
              BigDecimal unitPrice) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.image = image;
+        this.thumb = thumb;
         this.unitPrice = unitPrice;
     }
 
