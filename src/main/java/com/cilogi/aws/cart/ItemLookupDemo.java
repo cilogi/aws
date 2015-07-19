@@ -2,6 +2,8 @@
 
 package com.cilogi.aws.cart;
 
+import org.w3c.dom.Document;
+
 import java.util.logging.Logger;
 
 /*
@@ -19,6 +21,8 @@ public class ItemLookupDemo {
     public static void main(String[] args) {
 
         ItemLookup item = new ItemLookup(ITEM_ID);
+        Document doc = item.getDoc();
+        BasicOp.printDocument(doc, System.out);
         System.out.println("Title is " + item.getTitle());
         System.out.println("Description is " + item.getDescription());
         System.out.println("Image is " + item.getImage());

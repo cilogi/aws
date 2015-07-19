@@ -22,7 +22,6 @@ package com.cilogi.aws.cart;
 
 
 import com.google.common.collect.Lists;
-import lombok.Data;
 import lombok.NonNull;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -39,9 +38,11 @@ public class ItemLookup {
     @SuppressWarnings("unused")
     static final Logger LOG = Logger.getLogger(ItemLookup.class.getName());
 
+    private final String asin;
     private final Document doc;
 
     public ItemLookup(@NonNull String asin) {
+        this.asin = asin;
         BasicOp base = new BasicOp();
 
         Map<String, String> params = new HashMap<>();
@@ -50,7 +51,16 @@ public class ItemLookup {
         params.put("ResponseGroup", "Medium");
 
         doc = base.fetch(params);
-        BasicOp.printDocument(doc, System.out);
+    }
+
+    @SuppressWarnings({"unused"})
+    public ItemInfo getInfo() {
+        return new ItemInfo(asin, getTitle(), getDescription(), getImage(),
+                     getListPrice());
+    }
+
+    public Document getDoc() {
+        return doc;
     }
 
     public String getTitle() {
@@ -100,12 +110,16 @@ public class ItemLookup {
                 Node child = nodeList.item(i);
                 if (child.getNodeType() == Node.ELEMENT_NODE) {
                     String name = child.getNodeName().toLowerCase();
-                    if (name.equals("url")) {
-                        image.setUrl(child.getTextContent());
-                    } else if (name.equals("width")) {
-                        image.setWidth(Integer.parseInt(child.getTextContent()));
-                    } else if (name.equals("height")) {
-                        image.setHeight(Integer.parseInt(child.getTextContent()));
+                    switch (name) {
+                        case "url":
+                            image.setUrl(child.getTextContent());
+                            break;
+                        case "width":
+                            image.setWidth(Integer.parseInt(child.getTextContent()));
+                            break;
+                        case "height":
+                            image.setHeight(Integer.parseInt(child.getTextContent()));
+                            break;
                     }
                 }
             }
@@ -115,16 +129,4 @@ public class ItemLookup {
     }
 
 
-    @Data
-    public class ItemImage {
-        private int width;
-        private int height;
-        private String url;
-        ItemImage() {
-            url = null;
-        }
-        public boolean isValid() {
-            return url != null;
-        }
-    }
 }
