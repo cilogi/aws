@@ -2,6 +2,7 @@
 
 package com.cilogi.aws.cart;
 
+import com.cilogi.ds.guide.shop.Sku;
 import org.w3c.dom.Document;
 
 import java.util.logging.Logger;
@@ -16,17 +17,14 @@ import java.util.logging.Logger;
 public class ItemLookupDemo {
     @SuppressWarnings({"unused"})
     static final Logger LOG = Logger.getLogger(ItemLookupDemo.class.getName());
-    private static final String ITEM_ID = "1847972314";
+    private static final String ITEM_ID = "B00J8O28FY";
 
     public static void main(String[] args) {
 
         ItemLookup item = new ItemLookup(ITEM_ID);
         Document doc = item.getDoc();
         BasicOp.printDocument(doc, System.out);
-        System.out.println("Title is " + item.getTitle());
-        System.out.println("Description is " + item.getDescription());
-        System.out.println("Image is " + item.getImage());
-        System.out.println("Thumb is " + item.getThumb());
-        System.out.println("Price is " + item.getListPrice());
+        Sku sku = item.getInfo();
+        System.out.println("sku is " + sku.toJsonString());
     }
 }

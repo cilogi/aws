@@ -23,15 +23,14 @@ package com.cilogi.aws.cart;
 import com.cilogi.ds.guide.shop.Shop;
 import com.cilogi.ds.guide.shop.Sku;
 import com.google.common.collect.Lists;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 
 public class StoreCreateDemo {
     @SuppressWarnings("unused")
-    static final Logger LOG = LoggerFactory.getLogger(StoreCreateDemo.class);
+    static final Logger LOG = Logger.getLogger(StoreCreateDemo.class.getName());
 
     List<String> ids = Lists.newArrayList(
             "1847972314", // begonias book
@@ -52,7 +51,7 @@ public class StoreCreateDemo {
                 Sku sku = item.getInfo();
                 shop.addSku(sku);
             } catch (Exception e) {
-                LOG.warn("Can't load " + id + ": " + e.getMessage());
+                LOG.warning("Can't load " + id + ": " + e.getMessage());
             }
         }
         return shop.toJSONString();

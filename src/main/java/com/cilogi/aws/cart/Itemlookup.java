@@ -96,8 +96,19 @@ public class ItemLookup {
     }
 
     public BigDecimal getListPrice() {
-        NodeList priceNodes = doc.getElementsByTagName("ListPrice");
-        if (priceNodes == null) {
+        List<String> prices = Lists.newArrayList("ListPrice", "LowestNewPrice");
+        for (String price : prices) {
+            BigDecimal dec = getPrice(price);
+            if (dec != null) {
+                return dec;
+            }
+        }
+        return null;
+    }
+
+    private BigDecimal getPrice(@NonNull String tag) {
+        NodeList priceNodes = doc.getElementsByTagName(tag);
+        if (priceNodes == null || priceNodes.getLength() == 0) {
             return null;
         }
         Element priceElement = (Element)priceNodes.item(0);
