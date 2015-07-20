@@ -20,13 +20,13 @@
 package com.cilogi.aws.sdb;
 
 import com.amazonaws.services.simpledb.model.Attribute;
-import com.amazonaws.services.simpledb.model.DeleteAttributesRequest;
 import com.amazonaws.services.simpledb.model.ReplaceableAttribute;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.Map;
@@ -36,7 +36,7 @@ import java.util.Map;
  * it as a set if name/multimap pairs.
  */
 public class SDBTupleStore implements ITupleStore {
-    static final Logger LOG = Logger.getLogger(SDBTupleStore.class);
+    static final Logger LOG = LoggerFactory.getLogger(SDBTupleStore.class);
 
     private static final int MAX_ITER = 100;
 
