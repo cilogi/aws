@@ -21,6 +21,8 @@
 package com.cilogi.aws.cart;
 
 
+import com.cilogi.ds.guide.shop.Sku;
+import com.cilogi.ds.guide.shop.SkuImage;
 import com.google.common.collect.Lists;
 import lombok.NonNull;
 import org.w3c.dom.Document;
@@ -54,9 +56,13 @@ public class ItemLookup {
     }
 
     @SuppressWarnings({"unused"})
-    public ItemInfo getInfo() {
-        return new ItemInfo(asin, getTitle(), getDescription(), getImage(), getThumb(),
-                     getListPrice());
+    public Sku getInfo() {
+        return new Sku(asin)
+                .title(getTitle())
+                .description(getDescription())
+                .image(getImage())
+                .thumb(getThumb())
+                .unitPrice(getListPrice());
     }
 
     public Document getDoc() {
@@ -73,10 +79,10 @@ public class ItemLookup {
         return (contentsNode == null) ? null : contentsNode.getTextContent();
     }
 
-    public ItemImage getImage() {
+    public SkuImage getImage() {
         List<String> names = Lists.newArrayList("LargeImage", "MediumImage", "SmallImage");
         for (String name: names) {
-            ItemImage image = getImage(name);
+            SkuImage image = getImage(name);
             if (image != null) {
                 return image;
             }
@@ -84,8 +90,8 @@ public class ItemLookup {
         return null;
     }
 
-    public ItemImage getThumb() {
-        ItemImage image = getImage("ThumbnailImage");
+    public SkuImage getThumb() {
+        SkuImage image = getImage("ThumbnailImage");
         return image;
     }
 
@@ -106,10 +112,10 @@ public class ItemLookup {
         }
     }
 
-    private ItemImage getImage(String elementName) {
+    private SkuImage getImage(String elementName) {
         Element element = (Element)doc.getElementsByTagName(elementName).item(0);
         if (element != null) {
-            ItemImage image = new ItemImage();
+            SkuImage image = new SkuImage();
             NodeList nodeList = element.getChildNodes();
             for (int i = 0; i < nodeList.getLength(); i++) {
                 Node child = nodeList.item(i);
