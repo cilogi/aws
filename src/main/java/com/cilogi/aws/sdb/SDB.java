@@ -24,16 +24,16 @@ import com.amazonaws.services.simpledb.AmazonSimpleDBClient;
 import com.amazonaws.services.simpledb.model.*;
 import com.cilogi.aws.util.Secrets;
 import com.google.common.base.Preconditions;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
-
 
 /**
  * Simple interface to SDB
  */
 class SDB {
-    static final Logger LOG = Logger.getLogger(SDB.class);
+    static final Logger LOG = LoggerFactory.getLogger(SDB.class);
 
     private final AmazonSimpleDBClient client;
 

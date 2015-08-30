@@ -23,7 +23,8 @@ package com.cilogi.aws.sqs;
 import com.amazonaws.util.json.JSONObject;
 import com.cilogi.aws.util.LimitedExecutor;
 import com.google.common.base.Preconditions;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.concurrent.RejectedExecutionException;
@@ -31,7 +32,7 @@ import java.util.concurrent.TimeUnit;
 
 
 public class SQSProcess {
-    static final Logger LOG = Logger.getLogger(SQSProcess.class);
+    static final Logger LOG = LoggerFactory.getLogger(SQSProcess.class);
 
     private final LimitedExecutor executor;
     private Thread runner;
