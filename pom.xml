@@ -10,6 +10,11 @@
     <version>1.0</version>
     <name>cilogi-aws</name>
 
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <net.spy.log.LoggerImpl>net.spy.memcached.compat.log.SunLogger</net.spy.log.LoggerImpl>
+    </properties>
+
 
     <dependencies>
         <dependency>
