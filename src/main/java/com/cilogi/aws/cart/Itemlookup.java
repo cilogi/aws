@@ -1,6 +1,6 @@
 // Copyright (c) 2015 Cilogi. All Rights Reserved.
 //
-// File:        Itemlookup.java  (18/07/15)
+// File:        ItemLookup.java  (18/07/15)
 // Author:      tim
 //
 // Copyright in the whole and every part of this source file belongs to
