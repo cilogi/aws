@@ -7,7 +7,7 @@
     <groupId>com.cilogi</groupId>
     <artifactId>aws</artifactId>
     <packaging>jar</packaging>
-    <version>1.0</version>
+    <version>1.0.0</version>
     <name>cilogi-aws</name>
 
     <properties>
