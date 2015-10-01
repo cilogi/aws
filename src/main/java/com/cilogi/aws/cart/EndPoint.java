@@ -32,6 +32,7 @@ public enum EndPoint {
 
     @Getter
     private final String host;
+
     EndPoint(String host) {
         this.host = host;
     }
