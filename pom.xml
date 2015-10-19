@@ -21,12 +21,12 @@
         <dependency>
             <groupId>com.cilogi</groupId>
             <artifactId>cilogi-base</artifactId>
-            <version>1.1.0</version>
+            <version>1.2.0</version>
         </dependency>
         <dependency>
             <groupId>com.cilogi</groupId>
             <artifactId>guide</artifactId>
-            <version>1.5.5</version>
+            <version>1.6.1</version>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -41,7 +41,7 @@
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>13.0.1</version>
+            <version>18.0</version>
         </dependency>
         <dependency>
             <groupId>com.amazonaws</groupId>
